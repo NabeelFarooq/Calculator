@@ -1,0 +1,46 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+.calculator{
+    display: flex;
+    flex-direction: column;
+    /* position: relative; */
+    gap: 0.1rem;
+    margin: 5%;
+    width: 15%;
+    /* align-items:center;
+    justify-content: baseline; */
+}
+.digits{
+    /* 
+    display: flex; 
+    /* justify-content: space-between; */
+    /* gap: 0.4rem; */
+    /* flex-wrap: wrap; */
+    /*flex-direction: row;
+    flex-wrap: wrap; 
+    */
+} 
+.left{
+    /* display: flex;
+    flex-direction: column; */
+}
+.right{
+    /* display: flex;
+    flex-direction: column; */
+}
+.operations{
+    /* display: flex;
+    flex-direction: column;
+    justify-content: space-between;*/
+} 
+button{
+    padding: 1.5rem;
+    border-radius: 0.4rem;
+    margin: 2px;
+}
