@@ -10,35 +10,7 @@
 //     gotOp = 1;
 //     // numOpNum = 3;
 // }
-function operate(num1, operator, num2) {
-    switch (operator) {
-        case '+':
-            return add(num1, num2);
-        case '-':
-            return subtract(num1, num2);
-        case '*':
-            return multiply(num1, num2);
-        case '/':
-            return divide(num1, num2);
-    }
-}
 
-function add(number1, number2) {
-    return number1 + number2;
-}
-function subtract(number1, number2) {
-    return number1 - number2;
-}
-function multiply(number1, number2) {
-    return number1 * number2;
-}
-function divide(number1, number2) {
-    if (number2 === 0) {
-        console.log("Divide by zero Error!");
-        return -1;
-    }
-    return number1 / number2;
-}
 // function displayValueToScreen(value) {
 //     display.style.fontWeight = "bold";
 //     if (value === "") {
@@ -239,6 +211,130 @@ operations.addEventListener("click", (e) => {
     // first time operator pressed
     arr.push(String(e.target.id));
 });
+
 // jo bhi input hoga, display it and store it!
 // console.log(arr);
 //operate(num1, operator, num2)
+
+function add(number1, number2) {
+    return number1 + number2;
+}
+function subtract(number1, number2) {
+    return number1 - number2;
+}
+function multiply(number1, number2) {
+    return number1 * number2;
+}
+function divide(number1, number2) {
+    if (number2 === 0) {
+        console.log("Divide by zero Error!");
+        return -1;
+    }
+    return number1 / number2;
+}
+function operate(num1, operator, num2) {
+    switch (operator) {
+        case '+':
+            console.log(`num1: ${num1} + num2: ${num2} gives ${add(num1, num2)}`);
+            return add(num1, num2);
+        case '-':
+            console.log(`num1: ${num1} + num2: ${num2} gives ${subtract(num1, num2)}`);
+            return subtract(num1, num2);
+        case '*':
+            console.log(`num1: ${num1} * num2: ${num2} gives ${multiply(num1, num2)}`);
+            return multiply(num1, num2);
+        case '/':
+            console.log(`num1: ${num1} / num2: ${num2} gives ${divide(num1, num2)}`);
+            return divide(num1, num2);
+    }
+}
+
+// Array manipulation begins
+let number1,number2,operator,ans;
+function calculate(){
+    if(arr.includes("equals")){
+        let idxPlus = arr.indexOf("+");
+        let idxMinus = arr.indexOf("-");
+        let idxMultiply = arr.indexOf("*");
+        let idxDivide = arr.indexOf("/");
+        let idx;
+        if(idxPlus>=0){
+            idx = arr.indexOf("+");
+            // parse left side of operator for number1
+            let slicedArray = arr.slice(0,idx);
+            let filteredArray = slicedArray.filter(i => i !== ",");
+            let stringFromArray = filteredArray.toString();
+            let numberFromString = Number(stringFromArray);
+            number1 = numberFromString;
+    
+            operator = "+";
+            // parse right side of operator for number2
+            let slicedArray2 = arr.slice(idx+1,arr.indexOf("equals"));
+            let filteredArray2 = slicedArray2.filter(i => i !== ",");
+            let stringFromArray2 = filteredArray2.toString();
+            let numberFromString2 = Number(stringFromArray2);
+            number2 = numberFromString2;
+    
+            ans = operate(number1,operator,number2);
+        }
+        if(idxMinus>=0){
+            idx = arr.indexOf("-");
+            // parse left side of operator for number1
+            let slicedArray = arr.slice(0,idx);
+            let filteredArray = slicedArray.filter(i => i !== ",");
+            let stringFromArray = filteredArray.toString();
+            let numberFromString = Number(stringFromArray);
+            number1 = numberFromString;
+    
+            operator = "-";
+            // parse right side of operator for number2
+            let slicedArray2 = arr.slice(idx+1,arr.indexOf("equals"));
+            let filteredArray2 = slicedArray2.filter(i => i !== ",");
+            let stringFromArray2 = filteredArray2.toString();
+            let numberFromString2 = Number(stringFromArray2);
+            number2 = numberFromString2;
+    
+            ans = operate(number1,operator,number2);
+        }
+        if(idxMultiply>=0){
+            idx = arr.indexOf("*");
+            // parse left side of operator for number1
+            let slicedArray = arr.slice(0,idx);
+            let filteredArray = slicedArray.filter(i => i !== ",");
+            let stringFromArray = filteredArray.toString();
+            let numberFromString = Number(stringFromArray);
+            number1 = numberFromString;
+    
+            operator = "*";
+            // parse right side of operator for number2
+            let slicedArray2 = arr.slice(idx+1,arr.indexOf("equals"));
+            let filteredArray2 = slicedArray2.filter(i => i !== ",");
+            let stringFromArray2 = filteredArray2.toString();
+            let numberFromString2 = Number(stringFromArray2);
+            number2 = numberFromString2;
+    
+            ans = operate(number1,operator,number2);
+        }
+        if(idxDivide>=0){
+            idx = arr.indexOf("/");
+            // parse left side of operator for number1
+            let slicedArray = arr.slice(0,idx);
+            let filteredArray = slicedArray.filter(i => i !== ",");
+            let stringFromArray = filteredArray.toString();
+            let numberFromString = Number(stringFromArray);
+            number1 = numberFromString;
+    
+            operator = "/";
+            // parse right side of operator for number2
+            let slicedArray2 = arr.slice(idx+1,arr.indexOf("equals"));
+            let filteredArray2 = slicedArray2.filter(i => i !== ",");
+            let stringFromArray2 = filteredArray2.toString();
+            let numberFromString2 = Number(stringFromArray2);
+            number2 = numberFromString2;
+    
+            ans = operate(number1,operator,number2);
+        }
+    
+    }
+}
+
