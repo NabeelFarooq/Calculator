@@ -163,27 +163,27 @@ Example: you press a number button (12), followed by an operator button (+), a s
 
 let arr = [];
 //call it twice for  num1 and then for num 2
-let m,abc;
+let m, abc;
 const digits = document.querySelector(".digits");
 // event listener for number
 digits.addEventListener('click', (e) => {
-    if ((e.target.id === "equals" )|| (e.target.id === "cancel")) {
+    if ((e.target.id === "equals") || (e.target.id === "cancel")) {
         m = arr.length;
-        if(arr[m-1]==="equals"){
+        if (arr[m - 1] === "equals") {
             return;
         }
-        if(arr[m-1]==="cancel"){
+        if (arr[m - 1] === "cancel") {
             return;
         }
         arr.push(String(e.target.id));
     }
-    if ((e.target.id === "0")||(e.target.id === "1")||(e.target.id === "2")
-         ||(e.target.id === "3")||(e.target.id === "4") 
-         ||(e.target.id === "5")||(e.target.id === "6")||(e.target.id === "7")
-         ||(e.target.id === "8")||(e.target.id === "9")
-       ){      
-            arr.push(String(e.target.id));
-        }
+    if ((e.target.id === "0") || (e.target.id === "1") || (e.target.id === "2")
+        || (e.target.id === "3") || (e.target.id === "4")
+        || (e.target.id === "5") || (e.target.id === "6") || (e.target.id === "7")
+        || (e.target.id === "8") || (e.target.id === "9")
+    ) {
+        arr.push(String(e.target.id));
+    }
 });
 
 const operations = document.querySelector(".operations");
@@ -194,15 +194,15 @@ operations.addEventListener("click", (e) => {
 
     // to avoid adding the same operator to array 
     // if clicked multiple times by user
-    let oldOperatorPresentInTheArray = arr[abc-1];
+    let oldOperatorPresentInTheArray = arr[abc - 1];
     let newOperatorClicked = String(e.target.id);
-    if(oldOperatorPresentInTheArray===newOperatorClicked){
+    if (oldOperatorPresentInTheArray === newOperatorClicked) {
         return;
     }
 
     //change of operator
-    if((arr[abc-1]==="+")||(arr[abc-1]==="-")||(arr[abc-1]==="*")
-        ||(arr[abc-1]==="/")){
+    if ((arr[abc - 1] === "+") || (arr[abc - 1] === "-") || (arr[abc - 1] === "*")
+        || (arr[abc - 1] === "/")) {
         arr.pop();
         arr.push(String(e.target.id));
         return;
@@ -250,91 +250,102 @@ function operate(num1, operator, num2) {
 }
 
 // Array manipulation begins
-let number1,number2,operator,ans;
-function calculate(){
-    if(arr.includes("equals")){
+// Parse Array to obtain num1,num2
+function isComma(val){
+    if(val===","){
+        return true;
+    }else{
+        return false;
+    }
+}
+function parseArray(index, op) {
+    console.log(`Entered parseArray()`);
+    console.log(`Parameters passed to parseArray() ; index is ${index}, op is ${op}`);
+    let obj = {
+        number1,
+        number2,
+        operator,
+    };
+    let idx = index;
+    // parse left side of operator for number1
+    let slicedArray = [];
+    slicedArray = arr.slice(0, idx);
+    console.log(`slicedArray is ${slicedArray}`);
+
+    let filteredArray = [];
+    
+    filteredArray = slicedArray.filter(isComma);
+    console.log(`filteredArray is ${filteredArray}`);
+
+    let stringFromArray = "";
+    stringFromArray = filteredArray.toString();
+    console.log(`stringFromArray is ${stringFromArray}`);
+    let numberFromString = 0;
+    numberFromString = Number(stringFromArray);
+    console.log(`numberFromString is ${numberFromString}`);
+    obj.number1 = numberFromString;
+    console.log(`obj.number1 is ${obj.number1}`);
+
+
+    obj.operator = String(op);
+    console.log(`obj.operator is ${obj.operator}`);
+
+
+    // parse right side of operator for number2
+    let slicedArray2 = arr.slice(idx + 1, arr.indexOf("equals"));
+    console.log(`slicedArray2 is ${slicedArray2}`);
+    let filteredArray2 = slicedArray2.filter(i => i !== ",");
+    console.log(`filteredArray2 is ${filteredArray2}`);
+    let stringFromArray2 = filteredArray2.toString();
+    console.log(`stringFromArray2 is ${stringFromArray2}`);
+    let numberFromString2 = Number(stringFromArray2);
+    console.log(`numberFromString2 is ${numberFromString2}`);
+    obj.number2 = numberFromString2;
+    console.log(`obj.number2 is ${obj.number2}`);
+    
+    
+    console.log(`Will leave parseArray() after this log`);
+    return obj;
+}
+let number1, number2, operator, ans;
+function emptyArray(){
+    console.log(`Inside emptyArray() , before emptying array: ${arr}`);
+    arr = [];
+    console.log(`Inside emptyArray() , after emptying array: ${arr}`);
+}
+function calculate() {
+    console.log(`Entered calculate()`);
+    if (arr.includes("equals")) {
+        console.log(`Entered if() block inside calculate()`);
         let idxPlus = arr.indexOf("+");
         let idxMinus = arr.indexOf("-");
         let idxMultiply = arr.indexOf("*");
         let idxDivide = arr.indexOf("/");
-        let idx;
-        if(idxPlus>=0){
-            idx = arr.indexOf("+");
-            // parse left side of operator for number1
-            let slicedArray = arr.slice(0,idx);
-            let filteredArray = slicedArray.filter(i => i !== ",");
-            let stringFromArray = filteredArray.toString();
-            let numberFromString = Number(stringFromArray);
-            number1 = numberFromString;
-    
-            operator = "+";
-            // parse right side of operator for number2
-            let slicedArray2 = arr.slice(idx+1,arr.indexOf("equals"));
-            let filteredArray2 = slicedArray2.filter(i => i !== ",");
-            let stringFromArray2 = filteredArray2.toString();
-            let numberFromString2 = Number(stringFromArray2);
-            number2 = numberFromString2;
-    
-            ans = operate(number1,operator,number2);
+        if (idxPlus > 0) {
+            let obP = parseArray(idxPlus,"+");
+            ans = operate(obP.number1, obP.operator, obP.number2);
+            console.log(`Value of ans: ${ans}`);
+            emptyArray();
         }
-        if(idxMinus>=0){
-            idx = arr.indexOf("-");
-            // parse left side of operator for number1
-            let slicedArray = arr.slice(0,idx);
-            let filteredArray = slicedArray.filter(i => i !== ",");
-            let stringFromArray = filteredArray.toString();
-            let numberFromString = Number(stringFromArray);
-            number1 = numberFromString;
-    
-            operator = "-";
-            // parse right side of operator for number2
-            let slicedArray2 = arr.slice(idx+1,arr.indexOf("equals"));
-            let filteredArray2 = slicedArray2.filter(i => i !== ",");
-            let stringFromArray2 = filteredArray2.toString();
-            let numberFromString2 = Number(stringFromArray2);
-            number2 = numberFromString2;
-    
-            ans = operate(number1,operator,number2);
+        if (idxMinus > 0) {
+            let obM = parseArray(idxMinus,"-");
+            ans = operate(obM.number1, obM.operator, obM.number2);
+            console.log(`Value of ans: ${ans}`);
+            emptyArray();
         }
-        if(idxMultiply>=0){
-            idx = arr.indexOf("*");
-            // parse left side of operator for number1
-            let slicedArray = arr.slice(0,idx);
-            let filteredArray = slicedArray.filter(i => i !== ",");
-            let stringFromArray = filteredArray.toString();
-            let numberFromString = Number(stringFromArray);
-            number1 = numberFromString;
-    
-            operator = "*";
-            // parse right side of operator for number2
-            let slicedArray2 = arr.slice(idx+1,arr.indexOf("equals"));
-            let filteredArray2 = slicedArray2.filter(i => i !== ",");
-            let stringFromArray2 = filteredArray2.toString();
-            let numberFromString2 = Number(stringFromArray2);
-            number2 = numberFromString2;
-    
-            ans = operate(number1,operator,number2);
+        if (idxMultiply > 0) {
+            let obMul = parseArray(idxMultiply,"*");
+            ans = operate(obMul.number1, obMul.operator, obMul.number2);
+            console.log(`Value of ans: ${ans}`);
+            emptyArray();
         }
-        if(idxDivide>=0){
-            idx = arr.indexOf("/");
-            // parse left side of operator for number1
-            let slicedArray = arr.slice(0,idx);
-            let filteredArray = slicedArray.filter(i => i !== ",");
-            let stringFromArray = filteredArray.toString();
-            let numberFromString = Number(stringFromArray);
-            number1 = numberFromString;
-    
-            operator = "/";
-            // parse right side of operator for number2
-            let slicedArray2 = arr.slice(idx+1,arr.indexOf("equals"));
-            let filteredArray2 = slicedArray2.filter(i => i !== ",");
-            let stringFromArray2 = filteredArray2.toString();
-            let numberFromString2 = Number(stringFromArray2);
-            number2 = numberFromString2;
-    
-            ans = operate(number1,operator,number2);
+        if (idxDivide > 0) {
+            let obDiv = parseArray(idxDivide,"/");
+            ans = operate(obDiv.number1, obDiv.operator, obDiv.number2);
+            console.log(`Value of ans: ${ans}`);
+            emptyArray();
         }
-    
     }
+    console.log(`Will leave calculate() after this log!`);
 }
 
