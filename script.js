@@ -34,16 +34,16 @@ function multiply(number1, number2) {
 function divide(number1, number2) {
     if (number2 === 0) {
         console.log("Divide by zero Error!");
-        return;
+        return -1;
     }
     return number1 / number2;
 }
 function displayValueToScreen(value) {
+    display.style.fontWeight = "bold";
     if (value === "") {
         display.textContent = "";
         return;
     }
-    display.style.fontWeight = "bold";
     display.textContent = value;
 }
 
@@ -117,6 +117,16 @@ function combinedExecution() {
         console.log("operator: "+operator);
         let x = 0;
         x = operate(num1, operator, num2);
+        if(x===-1){
+            displayValueToScreen("Divide by zero Error!");
+            console.log("After the call");
+            console.log("num1: "+num1);
+            console.log("num2: "+num2);
+            console.log("operator: "+operator);
+            console.log("Answer: Divide by zero Error!");
+            return;
+        }
+        
         console.log("After the call");
         console.log("num1: "+num1);
         console.log("num2: "+num2);
