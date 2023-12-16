@@ -7,12 +7,17 @@
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
 }
+.zoom{
+    zoom: 2;
+    -moz-transform: scale(2);
+    -moz-transform-origin: 0 0;
+}
 button{
     padding: 1.5rem;
     border-radius: 0.4rem;
     margin: 2px;
     background-color: orange;
-    font-weight: bold;
+    font-weight: 900;
 }
 .calculator{
     display: flex;

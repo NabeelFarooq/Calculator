@@ -1,4 +1,4 @@
-let num1,num2,operator,wait_on,valueToDisplay;
+let num1,num2,operator,wait_on,valueToDisplay,gotN1,gotOp;
 function reset() {
     displayValueToScreen("");
     num1 = 0;
@@ -6,6 +6,8 @@ function reset() {
     operator = "";
     valueToDisplay = "";
     wait_on = 3;
+    gotN1 = 1;
+    gotOp = 1;
 }
 function operate(num1, operator, num2) {
     switch (operator) {
@@ -50,7 +52,7 @@ const display = document.querySelector(".display");
 const operations = document.querySelector(".operations");
 
 reset();
-let gotOp = 1;
+gotOp = 1;
 digits.addEventListener('click', (e) => {
     if (e.target.id === 'equals') {
         displayValueToScreen("");
@@ -79,7 +81,7 @@ digits.addEventListener('click', (e) => {
         // console.log("num1: "+num1);
     }
 });
-let gotN1 = 1;
+gotN1 = 1;
 operations.addEventListener("click", (e) => {
     if(wait_on === 3 && gotN1 === 1){
         console.log("Inside operations.addEventListener");
