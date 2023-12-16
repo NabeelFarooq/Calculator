@@ -8,6 +8,7 @@ function reset() {
     wait_on = 3;
     gotN1 = 1;
     gotOp = 1;
+    // numOpNum = 3;
 }
 function operate(num1, operator, num2) {
     switch (operator) {
@@ -53,12 +54,27 @@ const operations = document.querySelector(".operations");
 
 reset();
 gotOp = 1;
+/*
+number
+operator
+number
+eval
+numOpNum
+*/
+// numOpNum = 3;
+let inputArray = [];
+let outputArray = [];
 digits.addEventListener('click', (e) => {
     if (e.target.id === 'equals') {
+        if(wait_on>1){
+            displayValueToScreen("Please enter number(operator)number!");
+            return;
+        }
         displayValueToScreen("");
         num2 = Number(valueToDisplay);
         console.log("num2: "+num2);
-        gotNum2();   // make wait_on = 0
+        inputArray.push(num2);
+        gotNum2();   // make wait_on = 0 and get the answer of the calculation
     }
     if (e.target.id === "cancel") {
         reset();
@@ -67,6 +83,7 @@ digits.addEventListener('click', (e) => {
     if (wait_on === 3 || wait_on === 2 || wait_on === 1) {
         if (wait_on === 2 && gotOp === 1) {
             gotOperator(); // make wait_on = 1
+            inputArray.push(operator);
             --gotOp;
             // num1 = Number(valueToDisplay);
             // console.log("num1: "+num1);
@@ -82,12 +99,14 @@ digits.addEventListener('click', (e) => {
     }
 });
 gotN1 = 1;
+
 operations.addEventListener("click", (e) => {
     if(wait_on === 3 && gotN1 === 1){
         console.log("Inside operations.addEventListener");
         num1 = Number(valueToDisplay);
         console.log("num1: "+num1);
         gotNum1();  // make wait_on = 2
+        inputArray.push(num1);
         --gotN1;
     }
     operator = e.target.id;
@@ -117,6 +136,9 @@ function combinedExecution() {
         console.log("operator: "+operator);
         let x = 0;
         x = operate(num1, operator, num2);
+        outputArray.push(x);
+        inputArray = [];
+
         if(x===-1){
             displayValueToScreen("Divide by zero Error!");
             console.log("After the call");
@@ -133,5 +155,6 @@ function combinedExecution() {
         console.log("operator: "+operator);
         console.log("Answer: "+x);
         displayValueToScreen(x);
+        num1 = x;
     }
 }
