@@ -238,7 +238,7 @@ function operate(num1, operator, num2) {
             console.log(`num1: ${num1} + num2: ${num2} gives ${add(num1, num2)}`);
             return add(num1, num2);
         case '-':
-            console.log(`num1: ${num1} + num2: ${num2} gives ${subtract(num1, num2)}`);
+            console.log(`num1: ${num1} - num2: ${num2} gives ${subtract(num1, num2)}`);
             return subtract(num1, num2);
         case '*':
             console.log(`num1: ${num1} * num2: ${num2} gives ${multiply(num1, num2)}`);
@@ -250,73 +250,41 @@ function operate(num1, operator, num2) {
 }
 
 // Array manipulation begins
-// Parse Array to obtain num1,num2
-function isComma(val){
-    if(val===","){
-        return true;
-    }else{
-        return false;
-    }
-}
 function parseArray(index, op) {
-    console.log(`Entered parseArray()`);
-    console.log(`Parameters passed to parseArray() ; index is ${index}, op is ${op}`);
     let obj = {
         number1,
         number2,
         operator,
     };
     let idx = index;
-    // parse left side of operator for number1
-    let slicedArray = [];
-    slicedArray = arr.slice(0, idx);
-    console.log(`slicedArray is ${slicedArray}`);
-
-    let filteredArray = [];
     
-    filteredArray = slicedArray.filter(isComma);
-    console.log(`filteredArray is ${filteredArray}`);
+    // parse left side of operator for number1
+    let numStr = "";
+    for(let i=0;i<index;++i){
+        numStr += arr[i];
+    }
+    obj.number1 = Number(numStr);
+    
 
-    let stringFromArray = "";
-    stringFromArray = filteredArray.toString();
-    console.log(`stringFromArray is ${stringFromArray}`);
-    let numberFromString = 0;
-    numberFromString = Number(stringFromArray);
-    console.log(`numberFromString is ${numberFromString}`);
-    obj.number1 = numberFromString;
-    console.log(`obj.number1 is ${obj.number1}`);
-
-
-    obj.operator = String(op);
-    console.log(`obj.operator is ${obj.operator}`);
-
+    obj.operator = String(op);  // make sure operator is String
+    
 
     // parse right side of operator for number2
-    let slicedArray2 = arr.slice(idx + 1, arr.indexOf("equals"));
-    console.log(`slicedArray2 is ${slicedArray2}`);
-    let filteredArray2 = slicedArray2.filter(i => i !== ",");
-    console.log(`filteredArray2 is ${filteredArray2}`);
-    let stringFromArray2 = filteredArray2.toString();
-    console.log(`stringFromArray2 is ${stringFromArray2}`);
-    let numberFromString2 = Number(stringFromArray2);
-    console.log(`numberFromString2 is ${numberFromString2}`);
-    obj.number2 = numberFromString2;
-    console.log(`obj.number2 is ${obj.number2}`);
+    let numStr2 = "";
+    for(let i=idx+1;i<arr.length-1;++i){
+        numStr2 += arr[i];
+    }
+    obj.number2 = Number(numStr2);
     
     
-    console.log(`Will leave parseArray() after this log`);
     return obj;
 }
 let number1, number2, operator, ans;
 function emptyArray(){
-    console.log(`Inside emptyArray() , before emptying array: ${arr}`);
     arr = [];
-    console.log(`Inside emptyArray() , after emptying array: ${arr}`);
 }
 function calculate() {
-    console.log(`Entered calculate()`);
     if (arr.includes("equals")) {
-        console.log(`Entered if() block inside calculate()`);
         let idxPlus = arr.indexOf("+");
         let idxMinus = arr.indexOf("-");
         let idxMultiply = arr.indexOf("*");
@@ -324,28 +292,23 @@ function calculate() {
         if (idxPlus > 0) {
             let obP = parseArray(idxPlus,"+");
             ans = operate(obP.number1, obP.operator, obP.number2);
-            console.log(`Value of ans: ${ans}`);
             emptyArray();
         }
         if (idxMinus > 0) {
             let obM = parseArray(idxMinus,"-");
             ans = operate(obM.number1, obM.operator, obM.number2);
-            console.log(`Value of ans: ${ans}`);
             emptyArray();
         }
         if (idxMultiply > 0) {
             let obMul = parseArray(idxMultiply,"*");
             ans = operate(obMul.number1, obMul.operator, obMul.number2);
-            console.log(`Value of ans: ${ans}`);
             emptyArray();
         }
         if (idxDivide > 0) {
             let obDiv = parseArray(idxDivide,"/");
             ans = operate(obDiv.number1, obDiv.operator, obDiv.number2);
-            console.log(`Value of ans: ${ans}`);
             emptyArray();
         }
     }
-    console.log(`Will leave calculate() after this log!`);
 }
 
