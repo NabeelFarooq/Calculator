@@ -242,40 +242,43 @@ function emptyArray(){
     arr = [];
 }
 function calculate() {
-    let idxPlus = arr.indexOf("+");
-    let idxMinus = arr.indexOf("-");
-    let idxMultiply = arr.indexOf("*");
-    let idxDivide = arr.indexOf("/");
-    if (arr.includes("equals")) {
-        if (idxPlus > 0) {
-            let obP = parseArray(idxPlus,"+");
-            ans = operate(obP.number1, obP.operator, obP.number2);
-            parsedArray = [];
-            prevAns = ans;
-            emptyArray();
-        }
-        if (idxMinus > 0) {
-            let obM = parseArray(idxMinus,"-");
-            ans = operate(obM.number1, obM.operator, obM.number2);
-            parsedArray = [];
-            prevAns = ans;
-            emptyArray();
-        }
-        if (idxMultiply > 0) {
-            let obMul = parseArray(idxMultiply,"*");
-            ans = operate(obMul.number1, obMul.operator, obMul.number2);
-            parsedArray = [];
-            prevAns = ans;
-            emptyArray();
-        }
-        if (idxDivide > 0) {
-            let obDiv = parseArray(idxDivide,"/");
-            ans = operate(obDiv.number1, obDiv.operator, obDiv.number2);
-            parsedArray = [];
-            prevAns = ans;
-            emptyArray();
-        }
-    }
+    // let idxPlus = arr.indexOf("+");
+    // let idxMinus = arr.indexOf("-");
+    // let idxMultiply = arr.indexOf("*");
+    // let idxDivide = arr.indexOf("/");
+    // if (arr.includes("equals")) {
+    //     if (idxPlus > 0) {
+    //         let obP = parseArray(idxPlus,"+"); 
+    //         ans = operate(obP.number1, obP.operator, obP.number2);
+    //         let stringFormOfExpressionToBeEvaluated = "";
+    //         stringFormOfExpressionToBeEvaluated = String(obP.number1) + obP.operator + String(obP.number2);
+    //         answerFromMathJsLibrary = math.evaluate(stringFormOfExpressionToBeEvaluated);
+    //         parsedArray = [];
+    //         prevAns = ans;
+    //         emptyArray();
+    //     }
+    //     if (idxMinus > 0) {
+    //         let obM = parseArray(idxMinus,"-");
+    //         ans = operate(obM.number1, obM.operator, obM.number2);
+    //         parsedArray = [];
+    //         prevAns = ans;
+    //         emptyArray();
+    //     }
+    //     if (idxMultiply > 0) {
+    //         let obMul = parseArray(idxMultiply,"*");
+    //         ans = operate(obMul.number1, obMul.operator, obMul.number2);
+    //         parsedArray = [];
+    //         prevAns = ans;
+    //         emptyArray();
+    //     }
+    //     if (idxDivide > 0) {
+    //         let obDiv = parseArray(idxDivide,"/");
+    //         ans = operate(obDiv.number1, obDiv.operator, obDiv.number2);
+    //         parsedArray = [];
+    //         prevAns = ans;
+    //         emptyArray();
+    //     }
+    // }
 }
 function getOperator(e){
     abc = Number(arr.length); // calculate length of array
@@ -320,4 +323,6 @@ function getDigit(e){
 
 const equalsButton = document.querySelector("#equals");
 equalsButton.addEventListener('click',getDigit);        // to deal with false equals=
-equalsButton.addEventListener('click',calculate);        // to deal with genuine equals=
+equalsButton.addEventListener('click',calculate);       // to deal with genuine equals=
+
+// console.log(math.sqrt(-4).toString()) // 2i
