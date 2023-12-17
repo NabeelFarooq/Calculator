@@ -317,6 +317,7 @@ function getDigit(e){
         arr.push(String(e.target.id));
     }
 }
-// while(prevAns){
 
-// }
+const equalsButton = document.querySelector("#equals");
+equalsButton.addEventListener('click',getDigit);        // to deal with false equals=
+equalsButton.addEventListener('click',calculate);        // to deal with genuine equals=
