@@ -162,58 +162,15 @@ Example: you press a number button (12), followed by an operator button (+), a s
 // and stored array. 
 
 let arr = [];
-//call it twice for  num1 and then for num 2
 let m, abc;
 const digits = document.querySelector(".digits");
 // event listener for number
-digits.addEventListener('click', (e) => {
-    if ((e.target.id === "equals") || (e.target.id === "cancel")) {
-        m = arr.length;
-        if (arr[m - 1] === "equals") {
-            return;
-        }
-        if (arr[m - 1] === "cancel") {
-            return;
-        }
-        arr.push(String(e.target.id));
-    }
-    if ((e.target.id === "0") || (e.target.id === "1") || (e.target.id === "2")
-        || (e.target.id === "3") || (e.target.id === "4")
-        || (e.target.id === "5") || (e.target.id === "6") || (e.target.id === "7")
-        || (e.target.id === "8") || (e.target.id === "9")
-    ) {
-        arr.push(String(e.target.id));
-    }
-});
+digits.addEventListener('click',getDigit);
 
 const operations = document.querySelector(".operations");
 let operatorString = "";
 // event listener for operator
-operations.addEventListener("click", (e) => {
-    abc = Number(arr.length); // calculate length of array
-    // to avoid adding the same operator to array 
-    // if clicked multiple times by user
-    let oldOperatorPresentInTheArray = arr[abc - 1];
-    let newOperatorClicked = String(e.target.id);
-    if (oldOperatorPresentInTheArray === newOperatorClicked) {
-        return;
-    }
-
-    //change of operator
-    if ((arr[abc - 1] === "+") || (arr[abc - 1] === "-") || (arr[abc - 1] === "*")
-        || (arr[abc - 1] === "/")) {
-        arr.pop();
-        arr.push(String(e.target.id));
-        return;
-    }
-
-    // first time operator pressed
-    arr.push(String(e.target.id));
-});
-
-// jo bhi input hoga, display it and store it!
-// console.log(arr);
-//operate(num1, operator, num2)
+operations.addEventListener("click",getOperator);
 
 function add(number1, number2) {
     return number1 + number2;
@@ -249,6 +206,8 @@ function operate(num1, operator, num2) {
 }
 
 // Array manipulation begins
+let parsedArray = [];
+let prevAns = 0;
 function parseArray(index, op) {
     let obj = {
         number1,
@@ -263,7 +222,7 @@ function parseArray(index, op) {
         numStr += arr[i];
     }
     obj.number1 = Number(numStr);
-    
+    parsedArray.push(obj.number1);
 
     obj.operator = String(op);  // make sure operator is String
     
@@ -274,7 +233,7 @@ function parseArray(index, op) {
         numStr2 += arr[i];
     }
     obj.number2 = Number(numStr2);
-    
+    parsedArray.push(obj.number2);
     
     return obj;
 }
@@ -291,23 +250,73 @@ function calculate() {
         if (idxPlus > 0) {
             let obP = parseArray(idxPlus,"+");
             ans = operate(obP.number1, obP.operator, obP.number2);
+            parsedArray = [];
+            prevAns = ans;
             emptyArray();
         }
         if (idxMinus > 0) {
             let obM = parseArray(idxMinus,"-");
             ans = operate(obM.number1, obM.operator, obM.number2);
+            parsedArray = [];
+            prevAns = ans;
             emptyArray();
         }
         if (idxMultiply > 0) {
             let obMul = parseArray(idxMultiply,"*");
             ans = operate(obMul.number1, obMul.operator, obMul.number2);
+            parsedArray = [];
+            prevAns = ans;
             emptyArray();
         }
         if (idxDivide > 0) {
             let obDiv = parseArray(idxDivide,"/");
             ans = operate(obDiv.number1, obDiv.operator, obDiv.number2);
+            parsedArray = [];
+            prevAns = ans;
             emptyArray();
         }
     }
 }
+function getOperator(e){
+    abc = Number(arr.length); // calculate length of array
+    // to avoid adding the same operator to array 
+    // if clicked multiple times by user
+    let oldOperatorPresentInTheArray = arr[abc - 1];
+    let newOperatorClicked = String(e.target.id);
+    if (oldOperatorPresentInTheArray === newOperatorClicked) {
+        return;
+    }
 
+    //change of operator
+    if ((arr[abc - 1] === "+") || (arr[abc - 1] === "-") || (arr[abc - 1] === "*")
+        || (arr[abc - 1] === "/")) {
+        arr.pop();
+        arr.push(String(e.target.id));
+        return;
+    }
+
+    // first time operator pressed
+    arr.push(String(e.target.id));
+}
+function getDigit(e){
+    if ((e.target.id === "equals") || (e.target.id === "cancel")) {
+        m = arr.length;
+        if (arr[m - 1] === "equals") {
+            return;
+        }
+        if (arr[m - 1] === "cancel") {
+            return;
+        }
+        arr.push(String(e.target.id));
+    }
+    if ((e.target.id === "0") || (e.target.id === "1") || (e.target.id === "2")
+        || (e.target.id === "3") || (e.target.id === "4")
+        || (e.target.id === "5") || (e.target.id === "6") || (e.target.id === "7")
+        || (e.target.id === "8") || (e.target.id === "9")
+    ) {
+        arr.push(String(e.target.id));
+    }
+}
+// while(prevAns){
+
+// }
