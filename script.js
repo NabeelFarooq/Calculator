@@ -5,7 +5,7 @@ const equalsButton = document.querySelector("#equals");
 const cancelButton = document.querySelector("#cancel");
 
 let m, abc;
-function getOperator(e){
+function getOperator(e) {
     abc = Number(arr.length); // calculate length of array
     // to avoid adding the same operator to array 
     // if clicked multiple times by user
@@ -26,7 +26,7 @@ function getOperator(e){
     // first time operator pressed
     arr.push(String(e.target.id));
 }
-function getDigit(e){
+function getDigit(e) {
     if ((e.target.id === "equals") || (e.target.id === "cancel")) {
         m = arr.length;
         if (arr[m - 1] === "equals") {
@@ -46,124 +46,135 @@ function getDigit(e){
     }
 }
 // event listener for 0,1,2,3,4,5,6,7,8,9,cancel,equals
-digits.addEventListener('click',getDigit);
+digits.addEventListener('click', getDigit);
 // event listener for +,-,*,/
-operations.addEventListener("click",getOperator);
+operations.addEventListener("click", getOperator);
 // specialEventListener for = button to fetch the result
-equalsButton.addEventListener('click',calculate);
+equalsButton.addEventListener('click', calculate);
 // specialEventListener for C button to reset
-cancelButton.addEventListener('click',reset);
+cancelButton.addEventListener('click', reset);
+const obj = {
+    number1: 0,
+    number2: 0,
+    operator: "",
+};
 function parseArray(index, op) {
-    let obj = {
-        number1,
-        number2,
-        operator,
-    };
     let idx = index;
-    
+
     // parse left side of operator for number1
     let numStr = "";
-    for(let i=0;i<index;++i){
+    for (let i = 0; i < index; ++i) {
         numStr += arr[i];
     }
     obj.number1 = Number(numStr);
-    parsedArray.push(obj.number1);
+
 
     obj.operator = String(op);  // make sure operator is String
-    
+
 
     // parse right side of operator for number2
     let numStr2 = "";
-    for(let i=idx+1;i<arr.length-1;++i){
+    for (let i = idx + 1; i < arr.length; ++i) {
         numStr2 += arr[i];
     }
     obj.number2 = Number(numStr2);
-    parsedArray.push(obj.number2);
-    
+
     return obj;
 }
 function calculate() {
-    
+    // while (arr.length > 0) {
+        let idxPlus = arr.indexOf("+");
+        let idxMinus = arr.indexOf("-");
+        let idxMultiply = arr.indexOf("*");
+        let idxDivide = arr.indexOf("/");
+        let indexOfOp = Math.max(idxPlus, idxMinus, idxMultiply, idxDivide);
+        let op = arr[indexOfOp];
+        let valueObject = parseArray(indexOfOp, op);
+        let answer = operate(valueObject.number1, op, valueObject.number2);
+        console.log(`Result of ${valueObject.number1} ${op} ${valueObject.number2} is ${answer}`);
+        console.log(`Before emptying array , array is ${arr}. size of array ${arr.length}`);
+        arr = [];
+        console.log(`After emptying array , array is ${arr}.. size of array ${arr.length}`);
+    // }
 }
-function reset(){
+function reset() {
     arr = [];
 }
+function add(number1, number2) {
+    return number1 + number2;
+}
+function subtract(number1, number2) {
+    return number1 - number2;
+}
+function multiply(number1, number2) {
+    return number1 * number2;
+}
+function divide(number1, number2) {
+    if (number2 === 0) {
+        console.log("Divide by zero Error!");
+        return -1;
+    }
+    return number1 / number2;
+}
+function operate(num1, operator, num2) {
+    switch (operator) {
+        case '+':
+            console.log(`num1: ${num1} + num2: ${num2} gives ${add(num1, num2)}`);
+            return add(num1, num2);
+        case '-':
+            console.log(`num1: ${num1} - num2: ${num2} gives ${subtract(num1, num2)}`);
+            return subtract(num1, num2);
+        case '*':
+            console.log(`num1: ${num1} * num2: ${num2} gives ${multiply(num1, num2)}`);
+            return multiply(num1, num2);
+        case '/':
+            console.log(`num1: ${num1} / num2: ${num2} gives ${divide(num1, num2)}`);
+            return divide(num1, num2);
+    }
+}
 reset();
-calculate();     // calculate() holds all the core logic of the program
+console.table(arr);
+// calculate();     // calculate() holds all the core logic of the program
 
-    // let idxPlus = arr.indexOf("+");
-    // let idxMinus = arr.indexOf("-");
-    // let idxMultiply = arr.indexOf("*");
-    // let idxDivide = arr.indexOf("/");
-    // if (arr.includes("equals")) {
-    //     if (idxPlus > 0) {
-    //         let obP = parseArray(idxPlus,"+"); 
-    //         ans = operate(obP.number1, obP.operator, obP.number2);
-    //         let stringFormOfExpressionToBeEvaluated = "";
-    //         stringFormOfExpressionToBeEvaluated = String(obP.number1) + obP.operator + String(obP.number2);
-    //         answerFromMathJsLibrary = math.evaluate(stringFormOfExpressionToBeEvaluated);
-    //         parsedArray = [];
-    //         prevAns = ans;
-    //         emptyArray();
-    //     }
-    //     if (idxMinus > 0) {
-    //         let obM = parseArray(idxMinus,"-");
-    //         ans = operate(obM.number1, obM.operator, obM.number2);
-    //         parsedArray = [];
-    //         prevAns = ans;
-    //         emptyArray();
-    //     }
-    //     if (idxMultiply > 0) {
-    //         let obMul = parseArray(idxMultiply,"*");
-    //         ans = operate(obMul.number1, obMul.operator, obMul.number2);
-    //         parsedArray = [];
-    //         prevAns = ans;
-    //         emptyArray();
-    //     }
-    //     if (idxDivide > 0) {
-    //         let obDiv = parseArray(idxDivide,"/");
-    //         ans = operate(obDiv.number1, obDiv.operator, obDiv.number2);
-    //         parsedArray = [];
-    //         prevAns = ans;
-    //         emptyArray();
-    //     }
-    // }
+// 
+// if (arr.includes("equals")) {
+//     if (idxPlus > 0) {
+//         let obP = parseArray(idxPlus,"+");
+//         ans = operate(obP.number1, obP.operator, obP.number2);
+//         let stringFormOfExpressionToBeEvaluated = "";
+//         stringFormOfExpressionToBeEvaluated = String(obP.number1) + obP.operator + String(obP.number2);
+//         answerFromMathJsLibrary = math.evaluate(stringFormOfExpressionToBeEvaluated);
+//         parsedArray = [];
+//         prevAns = ans;
+//         emptyArray();
+//     }
+//     if (idxMinus > 0) {
+//         let obM = parseArray(idxMinus,"-");
+//         ans = operate(obM.number1, obM.operator, obM.number2);
+//         parsedArray = [];
+//         prevAns = ans;
+//         emptyArray();
+//     }
+//     if (idxMultiply > 0) {
+//         let obMul = parseArray(idxMultiply,"*");
+//         ans = operate(obMul.number1, obMul.operator, obMul.number2);
+//         parsedArray = [];
+//         prevAns = ans;
+//         emptyArray();
+//     }
+//     if (idxDivide > 0) {
+//         let obDiv = parseArray(idxDivide,"/");
+//         ans = operate(obDiv.number1, obDiv.operator, obDiv.number2);
+//         parsedArray = [];
+//         prevAns = ans;
+//         emptyArray();
+//     }
+// }
 // }
 // function emptyArray(){
 //     arr = [];
 // }
-// function add(number1, number2) {
-//     return number1 + number2;
-// }
-// function subtract(number1, number2) {
-//     return number1 - number2;
-// }
-// function multiply(number1, number2) {
-//     return number1 * number2;
-// }
-// function divide(number1, number2) {
-//     if (number2 === 0) {
-//         console.log("Divide by zero Error!");
-//         return -1;
-//     }
-//     return number1 / number2;
-// }
-// function operate(num1, operator, num2) {
-//     switch (operator) {
-//         case '+':
-//             console.log(`num1: ${num1} + num2: ${num2} gives ${add(num1, num2)}`);
-//             return add(num1, num2);
-//         case '-':
-//             console.log(`num1: ${num1} - num2: ${num2} gives ${subtract(num1, num2)}`);
-//             return subtract(num1, num2);
-//         case '*':
-//             console.log(`num1: ${num1} * num2: ${num2} gives ${multiply(num1, num2)}`);
-//             return multiply(num1, num2);
-//         case '/':
-//             console.log(`num1: ${num1} / num2: ${num2} gives ${divide(num1, num2)}`);
-//             return divide(num1, num2);
-//     }
-// }
+
 
 
 
@@ -306,10 +317,10 @@ calculate();     // calculate() holds all the core logic of the program
 
 /*
 12 + 7 - 5 * 3 = should yield 42
-Your calculator should not evaluate more than a single pair of numbers at a time. 
+Your calculator should not evaluate more than a single pair of numbers at a time.
 Example: you press a number button (12), followed by an operator button (+), a second number button (7),
- and finally a second operator button (-). Your calculator should then do the following: first, evaluate 
- the first pair of numbers (12 + 7), second, display the result of that calculation (19), and finally, 
+ and finally a second operator button (-). Your calculator should then do the following: first, evaluate
+ the first pair of numbers (12 + 7), second, display the result of that calculation (19), and finally,
  use that result (19) as the first number in your new calculation, along with the next operator (-).
 */
 // function evaluateSinglePair(a,b,c){
