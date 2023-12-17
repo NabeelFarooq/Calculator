@@ -191,7 +191,6 @@ let operatorString = "";
 // event listener for operator
 operations.addEventListener("click", (e) => {
     abc = Number(arr.length); // calculate length of array
-
     // to avoid adding the same operator to array 
     // if clicked multiple times by user
     let oldOperatorPresentInTheArray = arr[abc - 1];
@@ -284,11 +283,11 @@ function emptyArray(){
     arr = [];
 }
 function calculate() {
+    let idxPlus = arr.indexOf("+");
+    let idxMinus = arr.indexOf("-");
+    let idxMultiply = arr.indexOf("*");
+    let idxDivide = arr.indexOf("/");
     if (arr.includes("equals")) {
-        let idxPlus = arr.indexOf("+");
-        let idxMinus = arr.indexOf("-");
-        let idxMultiply = arr.indexOf("*");
-        let idxDivide = arr.indexOf("/");
         if (idxPlus > 0) {
             let obP = parseArray(idxPlus,"+");
             ans = operate(obP.number1, obP.operator, obP.number2);
