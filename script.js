@@ -1,4 +1,8 @@
 let arr = []; // declared here for global access by all functions
+let wait_on = 3
+let result = 0;
+let numberArray = [];
+let operatorArray = [];
 const digits = document.querySelector(".digits");
 const operations = document.querySelector(".operations");
 const equalsButton = document.querySelector("#equals");
@@ -19,12 +23,15 @@ function getOperator(e) {
     if ((arr[abc - 1] === "+") || (arr[abc - 1] === "-") || (arr[abc - 1] === "*")
         || (arr[abc - 1] === "/")) {
         arr.pop();
+        operatorArray.pop();
         arr.push(String(e.target.id));
+        operatorArray.push(String(e.target.id));
         return;
     }
 
     // first time operator pressed
     arr.push(String(e.target.id));
+    operatorArray.push(String(e.target.id));
 }
 function getDigit(e) {
     if ((e.target.id === "equals") || (e.target.id === "cancel")) {
@@ -43,6 +50,7 @@ function getDigit(e) {
         || (e.target.id === "8") || (e.target.id === "9")
     ) {
         arr.push(String(e.target.id));
+        numberArray.push(String(e.target.id));
     }
 }
 // event listener for 0,1,2,3,4,5,6,7,8,9,cancel,equals
@@ -54,9 +62,9 @@ equalsButton.addEventListener('click', calculate);
 // specialEventListener for C button to reset
 cancelButton.addEventListener('click', reset);
 const obj = {
-    number1: 0,
-    number2: 0,
-    operator: "",
+    number1: NaN,
+    number2: NaN,
+    operator: null,
 };
 function parseArray(index, op) {
     let idx = index;
@@ -82,7 +90,10 @@ function parseArray(index, op) {
     return obj;
 }
 function calculate() {
-    // while (arr.length > 0) {
+    
+    while (arr.length > 0) {
+
+    }
         let idxPlus = arr.indexOf("+");
         let idxMinus = arr.indexOf("-");
         let idxMultiply = arr.indexOf("*");
@@ -95,7 +106,8 @@ function calculate() {
         console.log(`Before emptying array , array is ${arr}. size of array ${arr.length}`);
         arr = [];
         console.log(`After emptying array , array is ${arr}.. size of array ${arr.length}`);
-    // }
+        return answer;
+
 }
 function reset() {
     arr = [];
@@ -133,7 +145,29 @@ function operate(num1, operator, num2) {
     }
 }
 reset();
-console.table(arr);
+// refuse to call calculate() and refuse to push into array except in that order unless input is of form either
+// num op num 
+// prevres!=0 op num
+
+// function gotNum1() {
+//     combinedExecution();
+// }
+
+// function gotNum2() {
+//     combinedExecution();
+// }
+
+// function gotOperator() {
+//     combinedExecution();
+// }
+
+// function combinedExecution() {
+//     wait_on--;
+//     if (wait_on === 0){
+//         result = calculate();
+//     }
+// }
+// continuously check if array holds            num1,op,num2, if true fire calculate
 // calculate();     // calculate() holds all the core logic of the program
 
 // 
@@ -268,22 +302,6 @@ console.table(arr);
 //     displayValueToScreen(operator);
 // });
 
-// function gotNum1() {
-//     combinedExecution();
-// }
-
-// function gotNum2() {
-//     combinedExecution();
-// }
-
-// function gotOperator() {
-//     combinedExecution();
-
-// }
-
-// function combinedExecution() {
-//     wait_on--;
-//     if (wait_on === 0) {
 //         console.log("Inside combinedExecution");
 //         console.log("Before the call");
 //         console.log("num1: " + num1);
